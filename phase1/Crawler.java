@@ -1,4 +1,7 @@
 import java.util.Vector;
+
+import javax.xml.parsers.DocumentBuilder;
+
 import java.util.HashSet;
 import java.util.StringTokenizer;
 import org.jsoup.Jsoup;
@@ -88,6 +91,7 @@ public class Crawler {
 			throw e;
 		}
 		/* Get the metadata from the result */
+		/** 
 		String lastModified = res.header("last-modified");
 		int size = res.bodyAsBytes().length;
 		String htmlLang = res.parse().select("html").first().attr("lang");
@@ -96,6 +100,7 @@ public class Crawler {
 		System.out.printf("Last Modified: %s\n", lastModified);
 		System.out.printf("Size: %d Bytes\n", size);
 		System.out.printf("Language: %s\n", lang);
+		*/
 		return res;
 	}
 	
@@ -177,7 +182,7 @@ public class Crawler {
 		try{
 			RocksDB.loadLibrary();
 			this.db = new InvertedIndex(RocksDBPath);
-			this.db.clear();
+			//this.db.clear();
 		}
 		catch(RocksDBException e){
 			System.err.println(e.toString());
@@ -187,12 +192,34 @@ public class Crawler {
 	public void addUrlList(Vector<String> urllist){
 		for(String url : urllist){
 			try{
-				String url_ = "url" + url;
-				db.addUrl(url_);
+				this.db.addUrlID(url);
 			}
 			catch(RocksDBException e){
 				System.err.println(e.toString());
 			}
+		}
+	}
+
+	public void addUrlInfo(String url, Response res){
+		try{
+			String lastModified = res.header("last-modified");
+			int size = res.bodyAsBytes().length;
+			String title = res.parse().title();
+
+			String size_ = size + " bytes";
+			this.db.addUrlInfo(url,title,lastModified,size_);
+		}
+		catch(RocksDBException e){
+			System.err.println(e.toString());
+		}
+	}
+
+	public void addUrlChild(String root, Vector<String> links){
+		try{
+			
+		}
+		catch(RocksDBException e){
+			System.err.println(e.toString());
 		}
 	}
 	
