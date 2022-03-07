@@ -216,7 +216,7 @@ public class Crawler {
 
 	public void addUrlChild(String root, Vector<String> links){
 		try{
-			
+			this.db.addUrlChild(root,links);
 		}
 		catch(RocksDBException e){
 			System.err.println(e.toString());
