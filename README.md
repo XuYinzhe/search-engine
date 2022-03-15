@@ -1,11 +1,11 @@
 # search-engine
-## HKUST COMP4321<br>
-Run
+HKUST COMP4321<br>
+### Run
   1. Git clone to local
   2. Change to this project path
   3. In terminal input: java -cp lib/rocksdbjni-6.19.0-linux64.jar:lib/jsoup-1.13.1.jar:/root/project/phase1/:.  Crawler 
 
-Compile
+### Compile
   1. Compile Crawler.java: javac -cp lib/rocksdbjni-6.19.0-linux64.jar:lib/jsoup-1.13.1.jar:/root/project/phase1/  Crawler.java<br>
   2. Compile InvertedIndex.java<br>
     2.1. Move project/phase1/temp/InvertedIndex.java to  project/phase1/InvertedIndex.java<br>
@@ -13,7 +13,7 @@ Compile
     2.3. Move project/phase1/InvertedIndex.java back to  project/phase1/temp/InvertedIndex.java (If miss this step, project cannot run.)<br>
     2.4. Replace project/phase1/mypackage/InvertedIndex.class by project/phase1/InvertedIndex.class<br>
 
-Progress
+### Progress
   1. InvertedIndex.java (skeleton is from lab1) (Use '::' to separate elements, any character without conflict can be used)<br>
     1.1. Finish mapping url<=>id  <br>
       1.1.1. void addUrlID(String url) //Give a new url a new id<br>
@@ -39,7 +39,7 @@ Progress
     2.5. void printDatabase(int mode)<br>
 
 
-Todo
+### Todo
   1. InvertedIndex.java<br>
     1.1. Mapping words<=>id<br>
     1.2. Mapping words<=>url (Examples: 'words-url_url::0':'words-url_words::0:cat::1:dog::2:pig')<br>
