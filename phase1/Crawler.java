@@ -20,6 +20,7 @@ import org.rocksdb.Options;
 import org.rocksdb.RocksDBException;  
 import org.rocksdb.RocksIterator;
 
+import mypackage.*;
 
 /** The data structure for the crawling queue.
  */
@@ -146,10 +147,11 @@ public class Crawler {
 	public void crawlLoop() {
 
 		
-
+		int count_pages=0;
 		while(!this.todos.isEmpty()) {
 			Link focus = this.todos.remove(0);
-			if (focus.level > this.max_crawl_depth) break; // stop criteria
+			if(count_pages>=max_pages) break;
+			//if (focus.level > this.max_crawl_depth) break; // stop criteria
 			if (this.urls.contains(focus.url)) continue;   // ignore pages that has been visited
 			/* start to crawl on the page */
 			try {
@@ -167,6 +169,9 @@ public class Crawler {
 					System.out.println(link);
 					this.todos.add(new Link(link, focus.level + 1)); // add links
 				}
+
+
+				count_pages++;
 			} catch (HttpStatusException e) {
 	            // e.printStackTrace ();
 				System.out.printf("\nLink Error: %s\n", focus.url);
@@ -212,6 +217,9 @@ public class Crawler {
 		catch(RocksDBException e){
 			System.err.println(e.toString());
 		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void addUrlChild(String root, Vector<String> links){
@@ -225,8 +233,8 @@ public class Crawler {
 	
 	public static void main (String[] args) {
 		String url = "https://www.cse.ust.hk/";
-		String dbPath = 'db';
-		int max_pages=1;
+		String dbPath = "db";
+		int max_pages=3;
 		Crawler crawler = new Crawler(url, max_pages);
 		crawler.CreateRocksDB(dbPath);
 		crawler.crawlLoop();
