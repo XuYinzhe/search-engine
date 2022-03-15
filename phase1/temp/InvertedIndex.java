@@ -142,12 +142,15 @@ public class InvertedIndex
         String id = this.getUrlID(root);
         if(id != null){
             String encodeid = "id_child-id" + this.separation + id;
-            String encodechild = "id_child-child";
-            encodechild += this.separation + links.size();
-            for(String link : links)
-                encodechild += this.separation + link;
-            //System.out.println(encodechild);
-            db.put(encodeid.getBytes(),encodechild.getBytes());
+            byte[] value = db.get(encodeid.getBytes());
+            if(value == null){
+                String encodechild = "id_child-child";
+                encodechild += this.separation + links.size();
+                for(String link : links)
+                    encodechild += this.separation + link;
+                //System.out.println(encodechild);
+                db.put(encodeid.getBytes(),encodechild.getBytes());
+            }
         }
     }
 

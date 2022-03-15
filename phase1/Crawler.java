@@ -103,6 +103,8 @@ public class Crawler {
 		System.out.printf("Size: %d Bytes\n", size);
 		System.out.printf("Language: %s\n", lang);
 		*/
+		this.addUrlInfo(url, res);
+
 		return res;
 	}
 	
@@ -153,7 +155,7 @@ public class Crawler {
 		this.addUrlList(_vector);
 
 		while(!this.todos.isEmpty()) {
-			count_pages++;
+			
 			Link focus = this.todos.remove(0);
 			if(count_pages>=max_pages) break;
 			//if (focus.level > this.max_crawl_depth) break; // stop criteria
@@ -180,10 +182,10 @@ public class Crawler {
 				hash_vector.addAll(hash_temp);
 
 				this.addUrlList(hash_vector);
-				this.addUrlInfo(focus.url, res);
+				//this.addUrlInfo(focus.url, res);
 				this.addUrlChild(focus.url,hash_vector);
 
-
+				count_pages++;
 			} catch (HttpStatusException e) {
 	            // e.printStackTrace ();
 				System.out.printf("\nLink Error: %s\n", focus.url);
@@ -221,15 +223,17 @@ public class Crawler {
 
 	public void addUrlInfo(String url, Response res){
 		try{
-			if (!this.urls.contains(url)){
+			//if (!this.urls.contains(url)){
 				String lastModified = res.header("last-modified");
 				//System.out.println(url);
 				int size = res.bodyAsBytes().length;
 				String title = res.parse().title();
 
 				String size_ = size + " bytes";
+				//System.out.println(url);
+				//System.out.println(lastModified+size+title);
 				this.db.addUrlInfo(url,title,lastModified,size_);
-			}
+			//}
 		}
 		catch(RocksDBException e){
 			System.err.println(e.toString());
@@ -277,7 +281,7 @@ public class Crawler {
 		Crawler crawler = new Crawler(url, max_pages);
 		crawler.CreateRocksDB(dbPath);
 		crawler.crawlLoop();
-		crawler.printDatabase(2);
+		crawler.printDatabase(0);
 		System.out.println("\nSuccessfully Returned");
 	}
 }
