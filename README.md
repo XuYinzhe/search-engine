@@ -8,10 +8,10 @@ Run
 Compile
   1. Compile Crawler.java: javac -cp lib/rocksdbjni-6.19.0-linux64.jar:lib/jsoup-1.13.1.jar:/root/project/phase1/  Crawler.java
   2. Compile InvertedIndex.java
-    2.1. Move project/phase1/temp/InvertedIndex.java to  project/phase1/InvertedIndex.java
-    2.2. Compile InvertedIndex.java: javac -cp lib/rocksdbjni-6.19.0-linux64.jar InvertedIndex.java 
-    2.3. Move project/phase1/InvertedIndex.java back to  project/phase1/temp/InvertedIndex.java (If miss this step, project cannot run.)
-    2.4. Replace project/phase1/mypackage/InvertedIndex.class by project/phase1/InvertedIndex.class
+    2.1. Move project/phase1/temp/InvertedIndex.java to  project/phase1/InvertedIndex.java<br>
+    2.2. Compile InvertedIndex.java: javac -cp lib/rocksdbjni-6.19.0-linux64.jar InvertedIndex.java <br>
+    2.3. Move project/phase1/InvertedIndex.java back to  project/phase1/temp/InvertedIndex.java (If miss this step, project cannot run.)<br>
+    2.4. Replace project/phase1/mypackage/InvertedIndex.class by project/phase1/InvertedIndex.class<br>
 
 Progress
   1. InvertedIndex.java (skeleton is from lab1) (Use '::' to separate elements, any character without conflict can be used)
