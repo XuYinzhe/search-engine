@@ -18,7 +18,7 @@ HKUST COMP4321<br>
 
 
 ### Progress
-#### InvertedIndex.java (skeleton is from lab1) (Use '::' to separate elements, any character without conflict can be used)<br>
+##### InvertedIndex.java (skeleton is from lab1) (Use '::' to separate elements, any character without conflict can be used)<br>
    1. Finish mapping url<=>id  <br>
       - void addUrlID(String url) //Give a new url a new id<br>
       - String getUrlID(String url) //Input url get id<br>
@@ -35,7 +35,7 @@ HKUST COMP4321<br>
       - String[] getUrlChildbyID(String id)<br>
       - void printUrlChild()<br>
 
- #### Crawler.java (skeleton is from lab2)<br>
+ ##### Crawler.java (skeleton is from lab2)<br>
  1. void CreateRocksDB(String RocksDBPath)<br>
  2. void addUrlList(Vector<String> urllist)<br>
  3. void addUrlInfo(String url, Response res)<br>
