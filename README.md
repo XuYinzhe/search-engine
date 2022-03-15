@@ -18,29 +18,29 @@ HKUST COMP4321<br>
 
 
 ### Progress
-  1. InvertedIndex.java (skeleton is from lab1) (Use '::' to separate elements, any character without conflict can be used)<br>
-    1.1. Finish mapping url<=>id  <br>
+#### InvertedIndex.java (skeleton is from lab1) (Use '::' to separate elements, any character without conflict can be used)<br>
+   1. Finish mapping url<=>id  <br>
       - void addUrlID(String url) //Give a new url a new id<br>
       - String getUrlID(String url) //Input url get id<br>
       - String getUrlbyID(int id) //Input id get url<br>
       - void printUrlID() //Print<br>
-    1.2. Finish mapping id<=>info (lastModified & size & title)<br>
+   1. Finish mapping id<=>info (lastModified & size & title)<br>
       - void addUrlInfo(String url, String title, String lastModified, String size)<br>
       - String[] getUrlInfo(String url) //(title,url,lastModified,size)<br>
       - String[] getUrlInfobyID(String url)<br>
       - void printUrlInfo()<br>
-    1.3. Finish mapping id<=>child (All children links of a link)<br>
-     - void addUrlChild(String root, Vector<String> links)<br>
+   1. Finish mapping id<=>child (All children links of a link)<br>
+      - void addUrlChild(String root, Vector<String> links)<br>
       - String[] getUrlChild(String root)<br>
       - String[] getUrlChildbyID(String id)<br>
       - void printUrlChild()<br>
 
-  2. Crawler.java (skeleton is from lab2)<br>
-    2.1. void CreateRocksDB(String RocksDBPath)<br>
-    2.2. void addUrlList(Vector<String> urllist)<br>
-    2.3. void addUrlInfo(String url, Response res)<br>
-    2.4. void addUrlInfo(String url, Response res)<br>
-    2.5. void printDatabase(int mode)<br>
+ #### Crawler.java (skeleton is from lab2)<br>
+ 1. void CreateRocksDB(String RocksDBPath)<br>
+ 2. void addUrlList(Vector<String> urllist)<br>
+ 3. void addUrlInfo(String url, Response res)<br>
+ 4. void addUrlInfo(String url, Response res)<br>
+ 5. void printDatabase(int mode)<br>
 
   
 
