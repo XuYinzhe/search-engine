@@ -69,6 +69,7 @@ public class InvertedIndex
     }
 
     public void printUrlID() throws RocksDBException{
+        System.out.println(":::: Printing Url-ID ::::");
         RocksIterator iter = db.newIterator();
         for(iter.seekToFirst(); iter.isValid(); iter.next()){
             String key = new String(iter.key());
@@ -76,7 +77,7 @@ public class InvertedIndex
             if(decodekey[0].equals("url_id"))
                 System.out.println(new String(iter.key()) + ", " + new String(iter.value()));
         }
-        
+        System.out.println(":::: Finish Url-ID ::::");
     }
     //-------------------------------------------------------------------
 
@@ -121,6 +122,7 @@ public class InvertedIndex
     }
 
     public void printUrlInfo() throws RocksDBException{
+        System.out.println(":::: Printing Url-Info ::::");
         RocksIterator iter = db.newIterator();
         for(iter.seekToFirst(); iter.isValid(); iter.next()){
             String key = new String(iter.key());
@@ -128,9 +130,10 @@ public class InvertedIndex
             if(decodekey[0].equals("id_info")){
                 String[] id = decodekey[1].split(this.separation);
                 String[] info = this.getUrlInfobyID(id[1]);
-                System.out.println(id[1] + "," + info[0] + "," + info[1] + "," + info[2] + "," + info[3]);
+                System.out.println(key+"::"+id[1] + "," + info[0] + "," + info[1] + "," + info[2] + "," + info[3]);
             }
         }
+        System.out.println(":::: Finish Url-Info ::::");
     } 
     //-------------------------------------------------------------------
 
@@ -171,6 +174,7 @@ public class InvertedIndex
     }
 
     public void printUrlChild() throws RocksDBException{
+        System.out.println(":::: Printing Url-Child ::::");
         RocksIterator iter = db.newIterator();
         for(iter.seekToFirst(); iter.isValid(); iter.next()){
             String key = new String(iter.key());
@@ -181,12 +185,13 @@ public class InvertedIndex
                 String[] child = this.getUrlChildbyID(id[1]);
                 //System.out.println(child[0]);
                 int num = Integer.parseInt​(child[0]);
-                String out = id[1];
+                String out = "urlID::"+id[1];
                 for(int i=1;i<=num;i++)
                     out += "," + child[i];
                 System.out.println(out);
             }
         }
+        System.out.println(":::: Finish Url-Child ::::");
     }
     //-------------------------------------------------------------------
     

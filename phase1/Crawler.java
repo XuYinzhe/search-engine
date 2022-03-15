@@ -1,4 +1,5 @@
 import java.util.Vector;
+import java.util.LinkedHashSet;
 
 import javax.xml.parsers.DocumentBuilder;
 
@@ -133,9 +134,9 @@ public class Crawler {
         for (Element link: links) {
         	String linkString = link.attr("href");
         	// filter out emails
-        	if (linkString.contains("mailto:")) {
-        		continue;
-        	}
+        	if (linkString.contains("mailto:")) continue;
+			if (linkString.contains("#")) continue;
+			if (!(linkString.contains("https")||linkString.contains("http"))) continue;
             result.add(link.attr("href"));
         }
         return result;
@@ -145,10 +146,14 @@ public class Crawler {
 	/** Use a queue to manage crawl tasks.
 	 */
 	public void crawlLoop() {
-
-		
 		int count_pages=0;
+		Link _link=this.todos.get(0);
+		Vector<String> _vector=new Vector<String>();
+		_vector.add(_link.url);
+		this.addUrlList(_vector);
+
 		while(!this.todos.isEmpty()) {
+			count_pages++;
 			Link focus = this.todos.remove(0);
 			if(count_pages>=max_pages) break;
 			//if (focus.level > this.max_crawl_depth) break; // stop criteria
@@ -159,19 +164,26 @@ public class Crawler {
 				Document doc = res.parse();
 				
 				Vector<String> words = this.extractWords(doc);		
-				System.out.println("\nWords:");
-				for(String word: words)
-					System.out.print(word + ", ");
+				//System.out.println("\nWords:");
+				//for(String word: words)
+					//System.out.print(word + ", ");
 		
 				Vector<String> links = this.extractLinks(doc);
-				System.out.printf("\n\nLinks:");
+				//System.out.printf("\n\nLinks:");
 				for(String link: links) {
-					System.out.println(link);
-					this.todos.add(new Link(link, focus.level + 1)); // add links
+						//System.out.println(link);
+						this.todos.add(new Link(link, focus.level + 1)); // add links
 				}
 
+				LinkedHashSet<String> hash_temp=new LinkedHashSet<String>(links);
+				Vector<String> hash_vector=new Vector<String>();
+				hash_vector.addAll(hash_temp);
 
-				count_pages++;
+				this.addUrlList(hash_vector);
+				this.addUrlInfo(focus.url, res);
+				this.addUrlChild(focus.url,hash_vector);
+
+
 			} catch (HttpStatusException e) {
 	            // e.printStackTrace ();
 				System.out.printf("\nLink Error: %s\n", focus.url);
@@ -196,8 +208,10 @@ public class Crawler {
 
 	public void addUrlList(Vector<String> urllist){
 		for(String url : urllist){
+			
 			try{
-				this.db.addUrlID(url);
+				if (!this.urls.contains(url)) 
+					this.db.addUrlID(url);
 			}
 			catch(RocksDBException e){
 				System.err.println(e.toString());
@@ -207,12 +221,15 @@ public class Crawler {
 
 	public void addUrlInfo(String url, Response res){
 		try{
-			String lastModified = res.header("last-modified");
-			int size = res.bodyAsBytes().length;
-			String title = res.parse().title();
+			if (!this.urls.contains(url)){
+				String lastModified = res.header("last-modified");
+				//System.out.println(url);
+				int size = res.bodyAsBytes().length;
+				String title = res.parse().title();
 
-			String size_ = size + " bytes";
-			this.db.addUrlInfo(url,title,lastModified,size_);
+				String size_ = size + " bytes";
+				this.db.addUrlInfo(url,title,lastModified,size_);
+			}
 		}
 		catch(RocksDBException e){
 			System.err.println(e.toString());
@@ -230,14 +247,37 @@ public class Crawler {
 			System.err.println(e.toString());
 		}
 	}
+
+	public void printDatabase(int mode){
+		try{
+			if (mode==0){
+				this.db.printUrlID();
+				this.db.printUrlInfo();
+				this.db.printUrlChild();
+			}
+			if (mode==1){
+				this.db.printUrlID();
+			}
+			if (mode==2){
+				this.db.printUrlInfo();
+			}
+			if (mode==3){
+				this.db.printUrlChild();
+			}
+		}
+		catch(RocksDBException e){
+			System.err.println(e.toString());
+		}
+	}
 	
 	public static void main (String[] args) {
-		String url = "https://www.cse.ust.hk/";
+		String url = "https://cse.hkust.edu.hk/";
 		String dbPath = "db";
 		int max_pages=3;
 		Crawler crawler = new Crawler(url, max_pages);
 		crawler.CreateRocksDB(dbPath);
 		crawler.crawlLoop();
+		crawler.printDatabase(2);
 		System.out.println("\nSuccessfully Returned");
 	}
 }
