@@ -47,7 +47,7 @@ HKUST COMP4321<br>
 ### Todo
   1. InvertedIndex.java<br>
     1.1. Mapping words<=>id<br>
-    1.2. Mapping words<=>url (Examples: 'words-url_url::0':'words-url_words::0:cat::1:dog::2:pig')<br>
+    1.2. Mapping words<=>url (Examples: 'words-url_url::0':'words-url_words::0:word1::1:word2::2:word3')<br>
     1.3. Mapping Frequent words<=>url<br>
     1.4. Mapping Frequent words<=>Frequency<br>
   2. Crawler.java<br>
